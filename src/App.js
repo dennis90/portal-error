@@ -1,26 +1,48 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
 
-class App extends Component {
+import TableRow from './TableRow';
+
+const customers = [
+  { id: 0, name: 'John Smith' },
+  { id: 1, name: 'Bill Wilson' },
+  { id: 3, name: 'Anna Houston' }
+];
+
+class App extends React.Component {
+  constructor(...args) {
+    super(...args);
+
+    this.state = {
+      customers: [],
+    };
+  }
+
+  buttonClickHandler = () => {
+    this.setState({ customers: this.state.customers.length > 0 ? [] : [...customers] });
+  }
   render() {
+    const rows = this.state.customers.map((customer, index) => (
+      <TableRow customer={customer} key={index}/>
+    ));
+
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <>
+        <button onClick={this.buttonClickHandler}>
+          Click-me
+        </button>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows}
+          </tbody>
+        </table>
+      </>
     );
   }
 }
